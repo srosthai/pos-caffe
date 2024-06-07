@@ -1,21 +1,23 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ExspendController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PosController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\TableController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\UnitController;
 use App\Models\Exspend;
 use App\Models\Transactionsaleline;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TableController;
+use App\Http\Controllers\ExspendController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Symfony\Component\Console\Helper\TableCellStyle;
 
 Route::get('/', function () {
@@ -26,6 +28,15 @@ Auth::routes();
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('/all_permission', 'AllRole')->name('role.index');
+        Route::get('/add_permission', 'AddRole')->name('add_role');
+        Route::post('/store_permission', 'StoreRole')->name('store_role');
+        Route::get('/edit_role/{id}', 'EditRole')->name('edit_role');
+        Route::put('/update_role/{id}', 'UpdateRole')->name('update_role');
+        Route::delete('/delete/{id}', 'DestroyRole')->name('destroy_role');
+    });
+    Route::resource('user', UserController::class);
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
     Route::resource('products', ProductController::class);

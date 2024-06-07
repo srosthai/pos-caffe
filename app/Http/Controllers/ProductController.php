@@ -66,7 +66,7 @@ class ProductController extends Controller
             'barcode' => $request->barcode,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'status' => $request->status,
+            'status' => $request->status ?? 1,
             'category_id'=>$request->category_id,
             'unit_id'=>$request->unit_id,
         ]);

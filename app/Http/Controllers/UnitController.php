@@ -26,7 +26,7 @@ class UnitController extends Controller
             'unit_name' => $request->unit_name,
             'shot_name' => $request->shot_name,
         ]);
-        return redirect(route('unit.index',compact('unit')));
+        return redirect()->route('unit.index',compact('unit'))->with('success', 'Success, Product has been Save.');
     }
 
     public function edit($id){
@@ -48,6 +48,6 @@ class UnitController extends Controller
     {
         $unit = Unit::find($id);
         $unit->delete();
-        return redirect()->back();
+        return redirect()->route('unit.index')->with('success','Delete successfully');
     }
 }

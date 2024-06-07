@@ -10,6 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- jQuery (required by Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -75,7 +81,7 @@
         <div class="card-body" style="height: 80px;">
             <div class="row">
                 <div class="form-group col-3">
-                    <select name="customer_id" class="form-control selected-customer">
+                    <select name="customer_id" class="form-control selected-customer select2">
                         <option value="">General Customer...</option>
                         @foreach ($customers as $customer)
                         <option value="{{ $customer->id }}">{{ $customer->first_name }} {{ $customer->last_name }}</option>
@@ -83,7 +89,7 @@
                     </select>
                 </div>
                 <div class="form-group col-3">
-                    <select name="table_id" class="form-control selected-table">
+                    <select name="table_id" class="form-control selected-table select2">
                         <option value="">Select Table...</option>
                         @foreach ($tables as $table)
                         <option value="{{ $table->id }}">{{ $table->table_name }}</option>
@@ -210,13 +216,13 @@
                             <td>${product_name} <input type="hidden" name="products[${product_id}][product_id]" value="${product_id}"></td>
                             <td>(${product_unit})</td>
                             <td>
-                                <button type="button" class="decrease-qty btn btn-danger"><i class="fas fa-minus-circle"></i></button>
+                                <button type="button" class="decrease-qty btn btn-danger btn-sm"><i class="fas fa-minus-circle"></i></button>
                             </td>
                             <td>
                                 <input type="number" class="row_qty form-control" name="products[${product_id}][qty]" style="width: 65px" value="${qty}">
                             </td>
                             <td>
-                                <button type="button" class="increase-qty btn btn-primary row_incrase"><i class="fas fa-plus"></i></button>
+                                <button type="button" class="increase-qty btn btn-primary row_incrase btn-sm"><i class="fas fa-plus"></i></button>
                             </td>
                             <td>
                                 <span>{{ config('settings.currency_symbol') }}<span class="label_row_amount">${product_price}</span></span>
@@ -224,7 +230,7 @@
                             <td>
                                 <input type="hidden" class="unit_price" name="products[${product_id}][unit_price]" value="${product_price}"/>
                                 <input type="hidden" class="row_amount" name="products[${product_id}][subtotal]" value="${product_price}"/>
-                                <button class="delete-product btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="delete-product btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>`;
                 $(`#table-cart tbody`).append(html);
@@ -337,5 +343,13 @@
     });
     @endif
 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ asset('select2-4.1.0-beta.0/dist/js/select2.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+        });
+    });
 </script>
 </html>

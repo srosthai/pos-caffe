@@ -16,14 +16,24 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ionicons@5.1.2/dist/css/ionicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- jQuery (required by Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('css')
     <script>
         window.APP = < ? php echo json_encode([
-            'currency_symbol' => config('settings.currency_symbol')
-            , 'warning_quantity' => config('settings.warning_quantity')
+            'currency_symbol' => config('settings.currency_symbol'), 'warning_quantity' => config(
+                'settings.warning_quantity')
         ]) ? >
-
     </script>
+    <style>
+        .form-control {
+            border-radius: 0px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -67,38 +77,99 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ asset('select2-4.1.0-beta.0/dist/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({});
+        });
+    </script>
+    <script>
+        $(document).on('click', '.delete-btn', function(e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            Swal.fire({
+                title: "Are you sure?"
+                    // , text: "You won't be able to revert this!"
+                    ,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "OK!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('.delete-button').on('click', function(e) {
+                var transactionId = $(this).data('transaction-id');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#deleteForm' + transactionId).submit();
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         const Toast = Swal.mixin({
-            toast: true
-            , position: 'top-right',
-            // iconColor: 'white',
+            toast: true,
+            position: 'top-right',
+            iconColor: 'green',
             customClass: {
-                popup: "colored-toast {{ (config('app.dark_mode') == 1 ? 'dark-colored-toast' : '') }}"
-            }
-            , showConfirmButton: false
-            , timer: 4000
-            , timerProgressBar: true
-            , didOpen: (toast) => {
+                popup: "colored-toast {{ config('app.dark_mode') == 1 ? 'dark-colored-toast' : '' }}"
+            },
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        , });
-
-        @if(Session::get('success'))
-        Toast.fire({
-            icon: 'success'
-            , title: `{{ Session::get('success') }}`,
-            // message: ,
+            },
         });
-        @endif
-        @if(Session::get('error'))
-        Toast.fire({
-            icon: 'error'
-            , title: `{{ Session::get('error') }}`,
-            // message: ,
-        });
-        @endif
 
+        @if (Session::get('success'))
+            Toast.fire({
+                icon: 'success',
+                title: `{{ Session::get('success') }}`,
+                // message: ,
+            });
+        @endif
+        @if (Session::get('error'))
+            Toast.fire({
+                icon: 'error',
+                title: `{{ Session::get('error') }}`,
+                // message: ,
+            });
+        @endif
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dashboardSwitch = document.getElementById('checked_all');
+            var userSwitches = document.querySelectorAll('.custom-control-input');
+
+            dashboardSwitch.addEventListener('change', function() {
+                var dashboardState = this.checked;
+                userSwitches.forEach(function(switchElement) {
+                    switchElement.checked = dashboardState;
+                });
+            });
+        });
     </script>
     @yield('js')
 </body>

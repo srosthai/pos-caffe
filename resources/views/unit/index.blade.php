@@ -14,6 +14,7 @@
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr class="text-center">
+                        <th>No.</th>
                         <th>Name</th>
                         <th>Shot Names</th>
                         <th>Action</th>
@@ -22,6 +23,7 @@
                 <tbody>
                     @foreach ($unit as $units)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $units->unit_name }}</td>
                             <td class="text-center">{{ $units->shot_name }}</td>
                             <td>

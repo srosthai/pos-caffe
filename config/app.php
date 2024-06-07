@@ -4,6 +4,7 @@ return [
     'providers' => [
         // Other service providers
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     'aliases' => [

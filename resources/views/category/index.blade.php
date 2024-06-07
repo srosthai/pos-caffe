@@ -13,6 +13,7 @@
     <table class="table table-bordered">
         <thead class="table-dark table-hover">
             <tr class="text-center">
+                <th>No.</th>
                 <th>Category Name</th>
                 <th>Description</th>
                 {{-- <th>Image</th> --}}
@@ -22,6 +23,7 @@
         <tbody>
             @foreach ($category as $categorys)
                 <tr class="text-center">
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $categorys->cate_name }}</td>
                     <td>{{ $categorys->description }}</td>
                     {{-- <td><img class="" src="{{ Storage::url($categorys->photo) }}" alt=""

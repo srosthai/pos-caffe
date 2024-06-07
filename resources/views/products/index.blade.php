@@ -1,20 +1,19 @@
 @extends('layouts.admin')
 
 @section('title', 'Product Management')
-@section('content-header', 'Product Management')
-@section('content-actions')
-<a href="{{ route('products.create') }}" class="btn btn-success"><i class="fas fa-plus"></i> Add New Product</a>
-@endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
 @endsection
 @section('content')
 <div class="card product-list">
+    <div class="card-header text-uppercase">List Customer
+        <a href="{{ route('products.create') }}" class="btn btn-success float-lg-right btn-sm"><i class="fas fa-plus"></i> Add New</a>
+    </div>
     <div class="card-body">
-        <table class="table table-bordered table-hover">
+        <table class="table datatable table-bordered table-hover">
             <thead class="thead-dark">
                 <tr>
-                    <th>ID</th>
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Image</th>
                     {{-- <th>Barcode</th> --}}
@@ -31,7 +30,7 @@
             <tbody>
                 @foreach ($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $product->name }}</td>
                     <td><img class="product-img img-thumbnail" src="{{ Storage::url($product->image) }}" alt=""></td>
                     {{-- <td>{{ $product->barcode }}</td> --}}
@@ -56,12 +55,17 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $products->render() }}
+        <div class="col-12 d-flex flex-row flex-wrap">
+            <div class="col-12 col-sm-6 text-center text-sm-left" style="margin-block: 20px">
+                {{ __('Showing') }} {{ $products->firstItem() }} {{ __('to') }}
+                {{ $products->lastItem() }} {{ __('of') }} {{ $products->total() }}
+                {{ __('entries') }}
+            </div>
+            <div class="col-12 col-sm-6 float-lg-right"> {{ $products->appends(request()->input())->links() }}
+            </div>
+        </div>
     </div>
 </div>
-@endsection
-
-@section('js')
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -74,7 +78,7 @@
                 , showCancelButton: true
                 , confirmButtonColor: "#3085d6"
                 , cancelButtonColor: "#d33"
-                , confirmButtonText: "Yes, delete it!"
+                , confirmButtonText: "Yes"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#deleteForm' + transactionId).submit();
@@ -82,6 +86,5 @@
             });
         });
     });
-
 </script>
 @endsection

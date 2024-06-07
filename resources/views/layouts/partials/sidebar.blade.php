@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-white elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('home') }}" class="brand-link">
         <img src="{{ asset('images/poslg.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -10,11 +10,11 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
                 <a href="#" class="d-block">{{ auth()->user()->getFullname() }}</a>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -26,7 +26,32 @@
                         <p>Home</p>
                     </a>
                 </li>
-                <li class="nav-item has-treeview @if (Route::is('products.*')) menu-open @endif" >
+                <li class="nav-item has-treeview @if (Route::is('role.*')||Route::is('user.*')) menu-open @endif" >
+                    <a href="" class="nav-link new">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            User & Role
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('user.index') }}"
+                                class="nav-link @if (request()->routeIs('user.index')) active @endif">
+                                <i class="fas fa-users nav-icon"></i>
+                                <p>User</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('role.index') }}"
+                                class="nav-link @if (request()->routeIs('role.index')) active @endif">
+                                <i class="fas fa-plus nav-icon"></i>
+                                <p>Role</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview @if (Route::is('products.*')||Route::is('unit.*')||Route::is('category.*')) menu-open @endif" >
                     <a href="" class="nav-link new">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
@@ -50,7 +75,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('unit.index') }}" class="nav-link ">
+                            <a href="{{ route('unit.index') }}" class="nav-link @if (request()->routeIs('unit.index')) active @endif ">
                                 <i class="fa fas fa-balance-scale nav-icon"></i>
                                 <p>Unit</p>
                             </a>
@@ -71,7 +96,7 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="{{ route('transaction.index') }}" class="nav-link {{ activeSegment('orders') }}">
+                    <a href="{{ route('transaction.index') }}" class="nav-link @if (Route::is('transaction.index')) active @endif">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>All Sale</p>
                     </a>

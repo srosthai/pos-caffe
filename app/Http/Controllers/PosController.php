@@ -23,7 +23,7 @@ class PosController extends Controller
 
         $tables = Table::all();
         $customers = Customer::all();
-        $products = Product::where('status',1)->get();
+        $products = Product::where('status', 1)->get();
         $units = Unit::all();
         $pos = Order::with('customers')->get();
         return view('pos.index', compact('customers', 'products', 'units', 'tables'));
@@ -68,11 +68,16 @@ class PosController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('pos.index')->with('success', 'Data saved successfully !');
+            $data = [
+                'success' => 'Checkout successfully!'
+            ];
         } catch (\Exception $e) {
             dd($e);
             DB::rollBack();
-            return redirect()->route('pos.index')->with('error', 'Something went wrong!');
+            $data = [
+                'error' => 'Something went wrong'
+            ];
         }
+        return redirect()->route('pos.index')->with($data);
     }
 }
